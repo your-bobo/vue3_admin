@@ -16,7 +16,7 @@ const router = createRouter({
       component: () => import('../views/main/Main.vue')
     },
     {
-      path: '/:pathMatch(.*)',
+      path: '/:pathMatch(.*)', //不认识的路径跳notfound
       component: () => import('../views/not-found/NotFound.vue')
     }
   ]
