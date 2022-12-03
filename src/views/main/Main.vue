@@ -1,18 +1,20 @@
 <template>
   <div class="main">
     <h2>main</h2>
-    <h2>{{ countStore.counter }}</h2>
-    <h2>{{ countStore.doubleCounter }}</h2>
-    <button @click="changeCounter">修改counter</button>
+    <button @click="handleExitClick">退出登录</button>
   </div>
 </template>
 
 <script setup lang="ts">
-import uesCountStore  from '@/store/counter'
-const countStore = uesCountStore()
+import { LOGIN_TOKEN } from '@/global/constants';
+import router from '@/router';
+import { localCache } from '@/utils/cache';
 
-function changeCounter() {
-  countStore.changeCounterAction(99)
+
+function handleExitClick() {
+  localCache.removeCache(LOGIN_TOKEN)
+
+  router.push('/login')
 }
 </script>
 

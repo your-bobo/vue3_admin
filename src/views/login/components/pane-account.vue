@@ -24,11 +24,15 @@ import type { ElForm, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import useLoginStore from '@/store/login/login'
 import type { IAccount } from '@/types'
+import { localCache } from '@/utils/cache'
+
+const LOGIN_NAME = 'login/name'
+const LOGIN_PASSWORD = 'login/password'
 
 
 const from = reactive({
-  name: '',
-  keyWord: ''
+  name: localCache.getCache(LOGIN_NAME) ?? '',
+  keyWord: localCache.getCache(LOGIN_PASSWORD) ?? ''
 })
 
 const rules = reactive<FormRules>({
@@ -45,14 +49,22 @@ const rules = reactive<FormRules>({
 const formRef = ref<InstanceType<typeof ElForm>>()  //InstanceType<T>获取构造函数返回的类型
 // 登录操作
 const loginStore = useLoginStore()
-function loginAction() {
+function loginAction(isRemPwd) {
   formRef.value?.validate((valid) => {
     if (valid) {
       const params: IAccount = {
         name: from.name,
         password: from.keyWord
       }
-      loginStore.loginAccountAction(params)
+      loginStore.loginAccountAction(params).then(res => {
+        if (isRemPwd) {
+          localCache.setCache(LOGIN_NAME, from.name)
+          localCache.setCache(LOGIN_PASSWORD, from.keyWord)
+        } else {
+          localCache.removeCache(LOGIN_NAME)
+          localCache.removeCache(LOGIN_PASSWORD)
+        }
+      })
     } else {
       ElMessage.error('账号和密码不符合规则！！！')
       
@@ -66,8 +78,4 @@ defineExpose({
 })
 </script>
 
-<style lang="less" scoped>
-.pane-account{
-  color: pink
-}
-</style>
+<style lang="less" scoped></style>
