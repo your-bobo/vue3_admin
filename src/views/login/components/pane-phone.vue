@@ -1,6 +1,16 @@
 <template>
   <div class="pane-phone">
-    <h2>pane-phone</h2>
+    <el-form label-width="60px" size="large">
+      <el-form-item label="手机号">
+        <el-input></el-input>
+      </el-form-item>
+      <el-form-item label="验证码">
+        <div class="auth-code">
+          <el-input></el-input>
+          <el-button type="primary" class="code-btn">获取验证码</el-button>
+        </div>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -8,6 +18,12 @@
 
 <style lang="less" scoped>
 .pane-phone{
-  color: pink
+  .auth-code {
+    display: flex;
+
+    .code-btn {
+      margin-left: 10px;
+    }
+  }
 }
 </style>

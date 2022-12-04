@@ -13,8 +13,6 @@ class Cache {
 
   setCache(key: string, value: any) {
     if (value || value === false) {
-      console.log(123)
-
       this.storage.setItem(key, JSON.stringify(value))
     }
   }
