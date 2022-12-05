@@ -2,11 +2,12 @@
   <div class="main-aside">
     <div class="logo">
       <img class="img" src="@/assets/img/logo.svg" alt="" />
-      <h2 class="title">波波管理系统</h2>
+      <h2 class="title" v-show = "!isCollapse">波波管理系统</h2>
     </div>
     <!-- 菜单 -->
     <el-menu
-      default-active="2"  
+      default-active="2" 
+      :collapse="isCollapse" 
       class="el-menu-vertical-demo"
       text-color="#b7bdc3"
       active-text-color="#fff"
@@ -29,6 +30,13 @@
 
 <script setup lang="ts">
 import useLoginStore from '@/store/login/login'
+
+defineProps({
+  isCollapse: {
+    type: Boolean,
+    default: false
+  }
+})
 
 const loginStore = useLoginStore()
 const userMenus = loginStore.userMenuInfo

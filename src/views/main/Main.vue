@@ -1,12 +1,12 @@
 <template>
   <div class="main">
     <el-container class="main-content">
-      <el-aside width="200px">
-        <main-aside></main-aside>
+      <el-aside :width="isCollapse ? '60px' : '210px'">
+        <main-aside :isCollapse="isCollapse"></main-aside>
       </el-aside>
       <el-container>
         <el-header>
-          <main-header></main-header>
+          <main-header @fold-click="FoldClick"></main-header>
         </el-header>
         <el-main>Main</el-main>
       </el-container>
@@ -17,7 +17,13 @@
 <script setup lang="ts">
 import MainAside from '@/components/main-aside/Main-aside.vue';
 import MainHeader from '@/components/main-header/Main-header.vue'
+import { ref } from 'vue';
 
+const isCollapse = ref(false)
+
+function FoldClick(isFold: boolean) {
+  isCollapse.value = isFold
+}
 </script>
 
 <style lang="less" scoped>
