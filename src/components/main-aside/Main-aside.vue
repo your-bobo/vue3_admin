@@ -22,7 +22,7 @@
           </el-icon>
           <span>{{ item.name }}</span>
         </template>
-        <el-menu-item :index="String(item1.id)" v-for="item1 in item.children" :key="item1.id">{{ item1.name }}</el-menu-item>
+        <el-menu-item :index="String(item1.id)" v-for="item1 in item.children" :key="item1.id" @click="goMainRoute(item1)">{{ item1.name }}</el-menu-item>
       </el-sub-menu>
     </el-menu>
   </div>
@@ -30,6 +30,7 @@
 
 <script setup lang="ts">
 import useLoginStore from '@/store/login/login'
+import { useRouter } from 'vue-router';
 
 defineProps({
   isCollapse: {
@@ -40,6 +41,12 @@ defineProps({
 
 const loginStore = useLoginStore()
 const userMenus = loginStore.userMenuInfo
+
+const router = useRouter()
+function goMainRoute(item: any) {
+  const url = item.url
+  router.push(url)
+}
 
 </script>
 
