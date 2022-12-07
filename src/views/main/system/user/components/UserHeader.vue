@@ -1,0 +1,83 @@
+<template>
+  <div class="userHeader">
+    <el-form :model="form" ref="formRef" class="demo-form-inline" size="large" label-width="80">
+      <el-row :gutter="40">
+        <el-col :span="8">
+          <el-form-item label="用户名" prop="name">
+            <el-input v-model="form.name" placeholder="请输入查询的用户名" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="真实姓名" prop="userName">
+            <el-input v-model="form.userName" placeholder="请输入查询的真实姓名" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="手机号码" prop="phone">
+            <el-input v-model="form.phone" placeholder="请输入查询的手机号码" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="状态" prop="state">
+            <el-select v-model="form.state" placeholder="请您选择状态" style="width: 100%">
+              <el-option label="启用" :value="1" />
+              <el-option label="禁用" :value="0" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="创建时间" prop="date">
+            <el-date-picker
+              v-model="form.date"
+              type="daterange"
+              range-separator="到"
+              start-placeholder="开始时间"
+              end-placeholder="结束时间"
+              style="width: 100%"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="5" :offset="19">
+          <el-form-item >
+            <el-button  @click="resetForm(formRef)">
+              <el-icon><Refresh /></el-icon>
+              重置
+            </el-button>
+            <el-button type="primary">
+              <el-icon><Search /></el-icon>
+              查询
+            </el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
+  </el-form>
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { FormInstance } from 'element-plus'
+import { reactive, ref } from 'vue';
+
+const form = reactive({
+  name: '',
+  userName: '',
+  phone: '',
+  state: 1,
+  date: '',
+})
+
+const formRef = ref<FormInstance>()
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.resetFields()
+}
+</script>
+
+<style lang="less" scoped>
+.userHeader{
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px 50px;
+  padding-top: 50px;
+}
+</style>
