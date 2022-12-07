@@ -3,9 +3,6 @@ import { allRouter } from '@/router/router.map'
 
 export let firstMenu: any = null
 export function mapMenusToRoutes(userMenus: any[]) {
-  console.log('allrouter', allRouter)
-  console.log('userMenus', userMenus)
-
   // 根据菜单去匹配正确的路由
   const routes: RouteRecordRaw[] = []
   for (const menu of userMenus) {
@@ -25,4 +22,32 @@ export function mapMenusToRoutes(userMenus: any[]) {
     }
   }
   return routes
+}
+
+/**
+ * 根据路径去匹配需要的菜单
+ * @param path 需要匹配的路径
+ * @param userMenus 所有菜单
+ */
+export function mapPathToMenu(path: string, userMenus: any[]) {
+  for (const menu of userMenus) {
+    for (const submenu of menu.children) {
+      if (submenu.url === path) {
+        return submenu
+      }
+    }
+  }
+}
+
+export function mapPathToBreadcrumb(path: string, userMenus: any[]) {
+  const breadcrumb: any = []
+  for (const menu of userMenus) {
+    for (const submenu of menu.children) {
+      if (submenu.url === path) {
+        breadcrumb.push(menu)
+        breadcrumb.push(submenu)
+        return breadcrumb
+      }
+    }
+  }
 }

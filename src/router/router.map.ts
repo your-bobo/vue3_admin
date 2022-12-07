@@ -12,6 +12,7 @@ export const asyncRouter: RouteRecordRaw[] = [
   },
   {
     path: '/main',
+    name: 'main',
     component: () => import('@/views/main/Main.vue')
   },
   {

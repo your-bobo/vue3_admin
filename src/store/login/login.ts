@@ -19,9 +19,9 @@ interface ILoginState {
 const useLoginStore = defineStore('login', {
   state: (): ILoginState => {
     return {
-      token: localCache.getCache(LOGIN_TOKEN) ?? '', // ??表示loaclCache.getCache('token')为undefined和null时，取''
-      userInfo: localCache.getCache(USER_INFO) ?? {},
-      userMenuInfo: localCache.getCache(USER_MENU_INFO) ?? []
+      token: '',
+      userInfo: {},
+      userMenuInfo: []
     }
   },
   actions: {
@@ -49,11 +49,25 @@ const useLoginStore = defineStore('login', {
 
       // 重要: 动态的添加路由
       const routes = mapMenusToRoutes(userMenuInfo)
-      console.log(11, routes)
-
       routes.forEach((route) => router.addRoute('main', route))
 
       router.push('/main')
+    },
+
+    loadLocakCacheAction() {
+      // 用户进行刷新默认加载数据
+      const token = localCache.getCache(LOGIN_TOKEN)
+      const userInfo = localCache.getCache(USER_INFO)
+      const userMenuInfo = localCache.getCache(USER_MENU_INFO)
+      if (token && userInfo && userMenuInfo) {
+        this.token = token
+        this.userInfo = userInfo
+        this.userMenuInfo = userMenuInfo
+
+        //动态刷新路由
+        const routes = mapMenusToRoutes(userMenuInfo)
+        routes.forEach((route) => router.addRoute('main', route))
+      }
     }
   }
 })

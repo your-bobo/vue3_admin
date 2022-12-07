@@ -1,5 +1,6 @@
 import { LOGIN_TOKEN } from '@/global/constants'
 import { localCache } from '@/utils/cache'
+import { firstMenu } from '@/utils/map-menus'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { asyncRouter } from './router.map'
 
@@ -14,8 +15,11 @@ router.beforeEach((to, from, next) => {
   if (to.path.startsWith('/main') && !token) {
     next('/login')
   } else {
-    next()
+    if (to.path === '/main' && token) {
+      next(firstMenu?.url)
+    }
   }
+  next()
 })
 
 // router.beforeEach((to) => {

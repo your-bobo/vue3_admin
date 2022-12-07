@@ -6,7 +6,7 @@
     </div>
     <!-- 菜单 -->
     <el-menu
-      default-active="2" 
+      :default-active="defaultActive" 
       :collapse="isCollapse" 
       class="el-menu-vertical-demo"
       text-color="#b7bdc3"
@@ -30,7 +30,9 @@
 
 <script setup lang="ts">
 import useLoginStore from '@/store/login/login'
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { mapPathToMenu } from '@/utils/map-menus'
+import { computed } from 'vue'
 
 defineProps({
   isCollapse: {
@@ -47,6 +49,12 @@ function goMainRoute(item: any) {
   const url = item.url
   router.push(url)
 }
+
+const route = useRoute()
+const defaultActive = computed(() => {
+  const pathMenu = mapPathToMenu(route.path, userMenus)
+  return String(pathMenu.id)
+})
 
 </script>
 

@@ -6,13 +6,14 @@
       </el-icon>
     </div>
     <div class="content">
-      <div class="breadcrumb">面包屑</div>
+      <breadcrumb></breadcrumb>
       <header-info />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import Breadcrumb from './components/Breadcrumb.vue';
 import HeaderInfo from '@/views/main/components/HeaderInfo.vue'
 import { ref } from 'vue';
 
