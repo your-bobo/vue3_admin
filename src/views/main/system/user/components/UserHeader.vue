@@ -8,27 +8,27 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="真实姓名" prop="userName">
-            <el-input v-model="form.userName" placeholder="请输入查询的真实姓名" />
+          <el-form-item label="真实姓名" prop="realname">
+            <el-input v-model="form.realname" placeholder="请输入查询的真实姓名" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="手机号码" prop="phone">
-            <el-input v-model="form.phone" placeholder="请输入查询的手机号码" />
+          <el-form-item label="手机号码" prop="cellphone">
+            <el-input v-model="form.cellphone" placeholder="请输入查询的手机号码" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="状态" prop="state">
-            <el-select v-model="form.state" placeholder="请您选择状态" style="width: 100%">
+          <el-form-item label="状态" prop="enable">
+            <el-select v-model="form.enable" placeholder="请您选择状态" style="width: 100%">
               <el-option label="启用" :value="1" />
               <el-option label="禁用" :value="0" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="创建时间" prop="date">
+          <el-form-item label="创建时间" prop="createAt">
             <el-date-picker
-              v-model="form.date"
+              v-model="form.createAt"
               type="daterange"
               range-separator="到"
               start-placeholder="开始时间"
@@ -43,7 +43,7 @@
               <el-icon><Refresh /></el-icon>
               重置
             </el-button>
-            <el-button type="primary">
+            <el-button type="primary" @click="handleSearch()">
               <el-icon><Search /></el-icon>
               查询
             </el-button>
@@ -60,16 +60,22 @@ import { reactive, ref } from 'vue';
 
 const form = reactive({
   name: '',
-  userName: '',
-  phone: '',
-  state: 1,
-  date: '',
+  realname: '',
+  cellphone: '',
+  enable: 1,
+  createAt: '',
 })
 
 const formRef = ref<FormInstance>()
+const emit = defineEmits(['query', 'resent'])
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
+  emit('resent')
+}
+
+function handleSearch() {
+  emit('query', form)
 }
 </script>
 
