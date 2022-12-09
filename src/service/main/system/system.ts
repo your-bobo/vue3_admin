@@ -20,3 +20,10 @@ export function addUser(data: any) {
     data
   })
 }
+
+export function updateUser(id: number, data: any) {
+  return hyRequest.patch({
+    url: `/users/${id}`,
+    data
+  })
+}

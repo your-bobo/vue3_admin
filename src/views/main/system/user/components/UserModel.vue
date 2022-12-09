@@ -15,7 +15,7 @@
           <el-form-item label="真实姓名" prop="realname">
             <el-input v-model="userForm.realname" placeholder="请输入真实姓名"/>
           </el-form-item>
-          <el-form-item label="密码" prop="password">
+          <el-form-item label="密码" prop="password" v-if="editOrAdd != 'edit'">
             <el-input v-model="userForm.password" show-password placeholder="请输入密码"/>
           </el-form-item>
           <el-form-item label="电话号码" prop="cellphone">
@@ -58,11 +58,13 @@ const showDialog = ref(false)
 function cahangeShowDialog() {
   showDialog.value = true
 }
-
+ 
+const editOrAdd = ref('add')
+const userItemId = ref()
 
 const mainStore = useMainStore()
 const { entireRoles, entireDepartments } = storeToRefs(mainStore)
-const userForm = reactive({
+let userForm = reactive({
   name: '',
   realname: '',
   password: '',
@@ -101,7 +103,11 @@ const confirm = (formEl: FormInstance | undefined) => {
   formEl.validate((valid) => {
     if (valid) {
       console.log('submit!')
-      systemStore.addUserAction(userForm)
+      if (editOrAdd.value === 'edit') {
+        systemStore.editUserAction(userItemId.value, userForm)
+      } else {
+        systemStore.addUserAction(userForm)
+      }
       formEl.resetFields()
       showDialog.value = false
     } else {
@@ -114,11 +120,22 @@ const confirm = (formEl: FormInstance | undefined) => {
 // 表单重置
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  formEl.resetFields()
   showDialog.value = false
+  formEl.resetFields()
 }
 
-defineExpose({ cahangeShowDialog })
+// 编辑数据
+function editUserItem(user: any) {
+  showDialog.value = true
+  editOrAdd.value = 'edit'
+  const { id } = user
+  userItemId.value = id
+  for (const key in userForm) {
+    userForm[key] = user[key]  //优雅
+  }
+}
+
+defineExpose({ cahangeShowDialog, editUserItem })
 
 </script>
 

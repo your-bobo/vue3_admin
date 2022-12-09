@@ -1,7 +1,7 @@
 <template>
   <div class="user">
     <user-header @query="queryList" @resent="resentQueryData"></user-header>
-    <user-content ref="contentRef" @addUser="addUser"></user-content>
+    <user-content ref="contentRef" @addUser="addUser" @editUser="editUser"></user-content>
     <user-model ref="modelRef"></user-model>
   </div>
 </template>
@@ -10,7 +10,7 @@
 import UserHeader from './components/UserHeader.vue';
 import userContent from './components/UserContent.vue';
 import UserModel from './components/UserModel.vue'
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 
 const contentRef = ref()
 const modelRef = ref()
@@ -24,6 +24,11 @@ function resentQueryData() {
 
 function addUser() {
   modelRef.value?.cahangeShowDialog()
+}
+
+function editUser(item: any) {
+  console.log('item', item);
+  modelRef.value?.editUserItem(item)
 }
 </script>
 

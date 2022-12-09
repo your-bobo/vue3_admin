@@ -30,7 +30,7 @@
         <el-table-column property="operation" label="操作" align="center">
           <template #default="scope">
             <div class="operation">
-            <el-button class="edit" type="primary" text>
+            <el-button class="edit" type="primary" text @click="editData(scope.row)">
               <el-icon><EditPen /></el-icon>
               <span>编辑</span>
             </el-button>
@@ -66,7 +66,7 @@ import { storeToRefs } from 'pinia';
 import { formatUTC } from '@/utils/format'
 import { ref } from 'vue'
 
-const emit = defineEmits(['addUser'])
+const emit = defineEmits(['addUser', 'editUser'])
 
 const systemStore = useSystemStore()
 // 获取页面数据
@@ -112,6 +112,11 @@ function deleteData(item: any) {
 //新增数据
 function handleAddUser() {
   emit('addUser')
+}
+
+// 编辑数据
+function editData(item: any) {
+  emit('editUser', item)
 }
 defineExpose({ fetchUserList })
 </script>

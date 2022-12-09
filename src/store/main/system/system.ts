@@ -1,7 +1,8 @@
 import {
   getUserData,
   deleteUserListItem,
-  addUser
+  addUser,
+  updateUser
 } from '@/service/main/system/system'
 import { ElMessage } from 'element-plus'
 import { defineStore } from 'pinia'
@@ -48,6 +49,15 @@ const useSystemStore = defineStore('system', {
         })
         this.getUserListAction({ offset: 0, size: 10 })
       })
+    },
+    editUserAction(id: number, params: any) {
+      updateUser(id, params).then((res) => {
+        ElMessage({
+          message: res.data,
+          type: 'success'
+        })
+      })
+      this.getUserListAction({ offset: 0, size: 10 })
     }
   }
 })
