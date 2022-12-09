@@ -1,4 +1,8 @@
-import { getUserData, deleteUserListItem } from '@/service/main/system'
+import {
+  getUserData,
+  deleteUserListItem,
+  addUser
+} from '@/service/main/system/system'
 import { ElMessage } from 'element-plus'
 import { defineStore } from 'pinia'
 
@@ -32,6 +36,15 @@ const useSystemStore = defineStore('system', {
         ElMessage({
           message: res.data,
           type: 'warning'
+        })
+        this.getUserListAction({ offset: 0, size: 10 })
+      })
+    },
+    addUserAction(patams: any) {
+      addUser(patams).then((res) => {
+        ElMessage({
+          message: res.data,
+          type: 'success'
         })
         this.getUserListAction({ offset: 0, size: 10 })
       })

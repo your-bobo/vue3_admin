@@ -1,4 +1,4 @@
-import hyRequest from '..'
+import hyRequest from '../..'
 
 // 用户管理
 export function getUserData(data: any) {
@@ -11,5 +11,12 @@ export function getUserData(data: any) {
 export function deleteUserListItem(id: number) {
   return hyRequest.delete({
     url: `/users/${id}`
+  })
+}
+
+export function addUser(data: any) {
+  return hyRequest.post({
+    url: '/users',
+    data
   })
 }
