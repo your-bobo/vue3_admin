@@ -1,6 +1,6 @@
 <template>
   <div class="model">
-    <el-dialog v-model="showDialog" title="新建用户" width="25%" center> 
+    <el-dialog v-model="showDialog" :title="editOrAdd === 'add' ? '新增用户' : '编辑用户'" width="25%" center> 
       <div class="form">
         <el-form
           label-position="right"
@@ -55,7 +55,7 @@ import type { FormInstance, FormRules  } from 'element-plus';
 
 const formRef = ref<FormInstance>()
 const showDialog = ref(false)
-function cahangeShowDialog() {
+function changeShowDialog() {
   showDialog.value = true
 }
  
@@ -135,7 +135,7 @@ function editUserItem(user: any) {
   }
 }
 
-defineExpose({ cahangeShowDialog, editUserItem })
+defineExpose({ changeShowDialog, editUserItem })
 
 </script>
 

@@ -1,17 +1,16 @@
 <template>
   <div class="department">
-    <depart-header :headerConfig="headerConfig" @query="queryList" @resent="resentQueryData"></depart-header>
+    <depart-header @query="queryList" @resent="resentQueryData"></depart-header>
     <depart-content ref="contentRef" @add-department="addDepartment" @edit-department="editDepartment"></depart-content>
     <depart-model ref="modelRef"></depart-model>
   </div>
 </template>
 
 <script setup lang="ts" name="department">
-import DepartHeader from '@/components/page-header/PageHeader.vue';
+import DepartHeader from './components/PageHeader.vue';
 import DepartContent from './components/PageContent.vue';
 import DepartModel from './components/PageModel.vue'
 import { ref } from 'vue'
-import headerConfig from '@/views/main/system/department/config/header.config'
 
 const contentRef = ref()
 const modelRef = ref()

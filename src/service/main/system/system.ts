@@ -27,3 +27,31 @@ export function updateUser(id: number, data: any) {
     data
   })
 }
+
+// 页面
+export function getPageList(page: string, data: any) {
+  return hyRequest.post({
+    url: `/${page}/list`,
+    data
+  })
+}
+
+export function deletePageList(page: string, id: number) {
+  return hyRequest.delete({
+    url: `/${page}/${id}`
+  })
+}
+
+export function addPageItem(page: string, data: any) {
+  return hyRequest.post({
+    url: `/${page}`,
+    data
+  })
+}
+
+export function updatePageItem(page: string, id: number, data: any) {
+  return hyRequest.patch({
+    url: `/${page}/${id}`,
+    data
+  })
+}

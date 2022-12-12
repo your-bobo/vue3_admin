@@ -23,7 +23,7 @@ function resentQueryData() {
 }
 
 function addUser() {
-  modelRef.value?.cahangeShowDialog()
+  modelRef.value?.changeShowDialog()
 }
 
 function editUser(item: any) {

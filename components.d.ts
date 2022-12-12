@@ -47,6 +47,7 @@ declare module '@vue/runtime-core' {
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
     MainAside: typeof import('./src/components/main-aside/Main-aside.vue')['default']
     MainHeader: typeof import('./src/components/main-header/Main-header.vue')['default']
+    PageHeader: typeof import('./src/components/page-header/PageHeader.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
