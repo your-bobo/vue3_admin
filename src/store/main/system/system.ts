@@ -15,8 +15,8 @@ interface ISystemState {
   userList: any[]
   total: number
   loading: boolean
-  departmentList: any[]
-  departmentTotal: number
+  pageList: any[]
+  pageTotal: number
 }
 
 const useSystemStore = defineStore('system', {
@@ -25,8 +25,8 @@ const useSystemStore = defineStore('system', {
       userList: [],
       total: 0,
       loading: true,
-      departmentList: [],
-      departmentTotal: 0
+      pageList: [],
+      pageTotal: 0
     }
   },
   actions: {
@@ -69,13 +69,13 @@ const useSystemStore = defineStore('system', {
     },
     async getPageListAction(page: string, params: any) {
       this.loading = true
-      const departmentListResult = await getPageList(page, params)
-      if (departmentListResult.code === 0) {
+      const pageListResult = await getPageList(page, params)
+      if (pageListResult.code === 0) {
         this.loading = false
       }
-      const { list, totalCount } = departmentListResult.data
-      this.departmentList = list
-      this.departmentTotal = totalCount
+      const { list, totalCount } = pageListResult.data
+      this.pageList = list
+      this.pageTotal = totalCount
     },
     deletePageListItemAction(page: string, id: number) {
       deletePageList(page, id).then((res) => {
@@ -83,7 +83,7 @@ const useSystemStore = defineStore('system', {
           message: res.data,
           type: 'warning'
         })
-        this.getPageListAction('department', { offset: 0, size: 10 })
+        this.getPageListAction(page, { offset: 0, size: 10 })
       })
     },
     addPageAction(page: string, params: any) {
@@ -92,7 +92,7 @@ const useSystemStore = defineStore('system', {
           message: res.data,
           type: 'success'
         })
-        this.getPageListAction('department', { offset: 0, size: 10 })
+        this.getPageListAction(page, { offset: 0, size: 10 })
       })
     },
     editPageAction(page: string, id: number, params: any) {
@@ -102,7 +102,7 @@ const useSystemStore = defineStore('system', {
           type: 'success'
         })
       })
-      this.getPageListAction('department', { offset: 0, size: 10 })
+      this.getPageListAction(page, { offset: 0, size: 10 })
     }
   }
 })

@@ -8,7 +8,7 @@ const config: any = [
   },
   {
     label: '权限',
-    prop: 'auth',
+    prop: 'intro',
     placeholder: '请输入查询的权限',
     type: 'input',
     value: ''

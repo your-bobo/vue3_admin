@@ -5,7 +5,7 @@
       <el-button type="primary" @click="handleAddUser">{{ contentConfig.headerBtn ?? '新建部门' }}</el-button>
     </div>
     <div class="table" v-loading="loading">
-      <el-table :data="departmentList" :border="true" style="width: 100%">
+      <el-table :data="pageList" :border="true" style="width: 100%">
         <template v-for="item in contentConfig.tableList" :key="item.property">
           <el-table-column :property="item.property" :label="item.label" :align="item.align" v-if="item.type === 'timer'">
             <template #default="scope">
@@ -38,7 +38,7 @@
         v-model:page-size="pageSize"
         :page-sizes="[10, 20, 30]"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="departmentTotal"
+        :total="pageTotal"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         @prev-click="handlePrevClick"
@@ -74,7 +74,7 @@ const pageSize = ref(10)
 const currentPage = ref(1)
 fetchUserList()
 
-const { departmentList, departmentTotal, loading } = storeToRefs(systemStore)
+const { pageList, pageTotal, loading } = storeToRefs(systemStore)
 
 function handleSizeChange() {
   fetchUserList()
