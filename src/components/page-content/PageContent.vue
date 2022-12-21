@@ -55,7 +55,7 @@ import { storeToRefs } from 'pinia';
 import { formatUTC } from '@/utils/format'
 import { ref } from 'vue'
 
-const emit = defineEmits(['addDepartment', 'editDepartment'])
+const emit = defineEmits(['addData', 'editData'])
 
 interface IProp {
   contentConfig: {
@@ -111,12 +111,12 @@ function deleteData(item: any) {
 
 //新增数据
 function handleAddUser() {
-  emit('addDepartment')
+  emit('addData')
 }
 
 // 编辑数据
 function editData(item: any) {
-  emit('editDepartment', item)
+  emit('editData', item)
 }
 defineExpose({ fetchUserList })
 </script>

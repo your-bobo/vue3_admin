@@ -1,7 +1,7 @@
 <template>
   <div class="department">
     <depart-header :headerConfig="headerConfig" @query="queryList" @resent="resentQueryData"></depart-header>
-    <depart-content :contentConfig="contentConfig" ref="contentRef" @add-department="addDepartment" @edit-department="editDepartment"></depart-content>
+    <depart-content :contentConfig="contentConfig" ref="contentRef" @addData="addData" @editData="editData"></depart-content>
     <depart-model ref="modelRef" :modelConfig="modelConfigRef"></depart-model>
   </div>
 </template>
@@ -10,14 +10,13 @@
 import DepartHeader from '@/components/page-header/PageHeader.vue';
 import DepartContent from '@/components/page-content/PageContent.vue';
 import DepartModel from '@/components/page-model/PageModel.vue'
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import headerConfig from '@/views/main/system/department/config/header.config'
 import contentConfig from '@/views/main/system/department/config/content.config'
 import modelConfig from '@/views/main/system/department/config/model.config'
 import useMainStore from '@/store/main/main';
-
-const contentRef = ref()
-const modelRef = ref()
+import usePageContent from '@/hooks/usePageContent';
+import usePageModel from '@/hooks/usePageModel'
 
 const mainStore = useMainStore()
 // 数据转化
@@ -37,21 +36,9 @@ const modelConfigRef = computed(() => {
   return modelConfig
 })
 
-function queryList(queryParams: any) {
-  contentRef.value?.fetchUserList(queryParams)
-}
-
-function resentQueryData() {
-  contentRef.value?.fetchUserList()
-}
-
-function addDepartment() {
-  modelRef.value?.changeShowDialog()
-}
-
-function editDepartment(item: any) {
-  modelRef.value?.editPageItem(item)
-}
+// 抽取hooks
+const { contentRef, queryList, resentQueryData } = usePageContent()
+const { modelRef, addData, editData } = usePageModel()
 
 </script>
 
