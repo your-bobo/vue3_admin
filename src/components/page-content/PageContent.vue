@@ -5,7 +5,7 @@
       <el-button type="primary" @click="handleAddUser">{{ contentConfig.headerBtn ?? '新建部门' }}</el-button>
     </div>
     <div class="table" v-loading="loading">
-      <el-table :data="pageList" :border="true" style="width: 100%">
+      <el-table :data="pageList" :border="true" style="width: 100%" row-key="id">
         <template v-for="item in contentConfig.tableList" :key="item.property">
           <el-table-column :property="item.property" :label="item.label" :align="item.align" v-if="item.type === 'timer'">
             <template #default="scope">
@@ -13,19 +13,22 @@
             </template>
           </el-table-column>
           <el-table-column :property="item.peoperty" :label="item.label" :align="item.align" v-else-if="item.type === 'handle'">
-          <template #default="scope">
-            <div class="operation">
-            <el-button class="edit" type="primary" text @click="editData(scope.row)">
-              <el-icon><EditPen /></el-icon>
-              <span>编辑</span>
-            </el-button>
-            <el-button class="edit" type="danger" text @click="deleteData(scope.row)">
-              <el-icon><Delete /></el-icon>  
-              <span>删除</span>
-            </el-button>
-          </div>
-          </template>
-        </el-table-column>
+            <template #default="scope">
+              <div class="operation">
+                <el-button class="edit" type="primary" text @click="editData(scope.row)">
+                  <el-icon><EditPen /></el-icon>
+                  <span>编辑</span>
+                </el-button>
+                <el-button class="edit" type="danger" text @click="deleteData(scope.row)">
+                  <el-icon><Delete /></el-icon>  
+                  <span>删除</span>
+                </el-button>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column :width="item.width" :align="item.align"
+          :label="item.label ?? ''" :property="item.property" v-else-if="item.type === 'input'"
+          />
           <el-table-column :type="item.type ?? ''" :width="item.width" :align="item.align"
           :label="item.label ?? ''" :property="item.property" v-else
           />
