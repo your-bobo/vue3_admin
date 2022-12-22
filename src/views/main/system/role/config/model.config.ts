@@ -20,6 +20,10 @@ const config: any = {
       type: 'input',
       value: '',
       rules: [{ required: true, message: '请输入角色权限', trigger: 'blur' }]
+    },
+    {
+      type: 'custom',
+      slotName: 'introList'
     }
   ]
 }

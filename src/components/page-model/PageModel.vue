@@ -5,19 +5,22 @@
         <el-form
           label-position="right"
           label-width="80px"
-          :model="departmentForm"
+          :model="formInfo"
           ref="formRef"
         >
           <template v-for="item in modelConfig.formList" :key="item.prop">
             <el-form-item :label="item.label" :prop="item.prop" :rules="item.rules" v-if="item.type === 'input'">
-              <el-input v-model="departmentForm[item.prop]" :placeholder="item.placeholder"/>
+              <el-input v-model="formInfo[item.prop]" :placeholder="item.placeholder"/>
+            </el-form-item>
+            <el-form-item v-else-if="item.type === 'custom'">
+              <slot :name="item.slotName"></slot>
             </el-form-item>
             <el-form-item :label="item.label" :prop="item.prop" :rules="item.rules" v-else>
-            <el-select v-model="departmentForm[item.prop]" :placeholder="item.placeholder">
-              <el-option v-for="item1 in item.option" :key="item1.id" :label="item1.label"
-              :value="item1.value"/>
-            </el-select>
-          </el-form-item>
+              <el-select v-model="formInfo[item.prop]" :placeholder="item.placeholder">
+                <el-option v-for="item1 in item.option" :key="item1.id" :label="item1.label"
+                :value="item1.value"/>
+              </el-select>
+            </el-form-item>
           </template>
         </el-form>
       </div>
@@ -44,6 +47,7 @@ interface IProp {
     modelTitle?: any
     formList: any[]
   }
+  otherInfo?: any
 }
 
 const props = defineProps<IProp>()
@@ -61,7 +65,7 @@ let fromData = {}
 for(const item of props.modelConfig.formList) {
   fromData[item.prop] = item.value ?? ''
 }
-const departmentForm = reactive<any>(fromData)
+const formInfo = reactive<any>(fromData)
 
 // 表单校验提交
 const systemStore = useSystemStore()
@@ -70,10 +74,18 @@ const confirm = (formEl: FormInstance | undefined) => {
   formEl.validate((valid) => {
     if (valid) {
       console.log('submit!')
+      let params = formInfo 
+      if (props.otherInfo) {
+        params = {
+          ...props.otherInfo,
+          ...params
+        }
+        delete params.undefined
+      }
       if (editOrAdd.value === 'edit') {
-        systemStore.editPageAction( props.modelConfig.page, userItemId.value, departmentForm)
+        systemStore.editPageAction( props.modelConfig.page, userItemId.value, params)
       } else {
-        systemStore.addPageAction( props.modelConfig.page, departmentForm)
+        systemStore.addPageAction( props.modelConfig.page, params)
       }
       formEl.resetFields()
       showDialog.value = false
@@ -99,10 +111,10 @@ function editPageItem(user: any) {
   const { id } = user
   userItemId.value = id
   for (const item of props.modelConfig.formList) {
-    departmentForm[item.prop] = item.value
+    formInfo[item.prop] = item.value
   }
-  for (const key in departmentForm) {
-    departmentForm[key] = user[key]  //优雅
+  for (const key in formInfo) {
+    formInfo[key] = user[key]  //优雅
   }
 }
 
