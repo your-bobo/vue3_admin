@@ -45,6 +45,7 @@ declare module '@vue/runtime-core' {
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
+    ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTree: typeof import('element-plus/es')['ElTree']
     MainAside: typeof import('./src/components/main-aside/Main-aside.vue')['default']
     MainHeader: typeof import('./src/components/main-header/Main-header.vue')['default']
