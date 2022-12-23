@@ -2,7 +2,7 @@
   <div class="content">
     <div class="header">
       <h2>{{ contentConfig.headerTitle ?? '数据列表' }}</h2>
-      <el-button type="primary" @click="handleAddUser">{{ contentConfig.headerBtn ?? '新建部门' }}</el-button>
+      <el-button v-if="isCreate" type="primary" @click="handleAddUser">{{ contentConfig.headerBtn ?? '新建部门' }}</el-button>
     </div>
     <div class="table" v-loading="loading">
       <el-table :data="pageList" :border="true" style="width: 100%" row-key="id">
@@ -15,11 +15,11 @@
           <el-table-column :property="item.peoperty" :label="item.label" :align="item.align" v-else-if="item.type === 'handle'">
             <template #default="scope">
               <div class="operation">
-                <el-button class="edit" type="primary" text @click="editData(scope.row)">
+                <el-button  v-if="isUpdate" class="edit" type="primary" text @click="editData(scope.row)">
                   <el-icon><EditPen /></el-icon>
                   <span>编辑</span>
                 </el-button>
-                <el-button class="edit" type="danger" text @click="deleteData(scope.row)">
+                <el-button v-if="isDelete" class="edit" type="danger" text @click="deleteData(scope.row)">
                   <el-icon><Delete /></el-icon>  
                   <span>删除</span>
                 </el-button>
@@ -57,6 +57,7 @@ import useSystemStore from '@/store/main/system/system'
 import { storeToRefs } from 'pinia';
 import { formatUTC } from '@/utils/format'
 import { ref } from 'vue'
+import usePermissions from '@/hooks/usePermissions'
 
 const emit = defineEmits(['addData', 'editData'])
 
@@ -70,6 +71,12 @@ interface IProp {
 }
 
 const props = defineProps<IProp>()
+
+// 获取是否有对应的增删改查的权限
+const isCreate = usePermissions(`${props.contentConfig.pageName}:create`)
+const isDelete = usePermissions(`${props.contentConfig.pageName}:delete`)
+const isUpdate = usePermissions(`${props.contentConfig.pageName}:update`)
+const isQuery = usePermissions(`${props.contentConfig.pageName}:query`)
 
 const systemStore = useSystemStore()
 // 获取页面数据
@@ -95,8 +102,23 @@ function handleNextClick() {
   fetchUserList()
 }
 
+// 页面默认第一页
+systemStore.$onAction(({ name, after }) => {
+  after(() => {
+    if (
+      name === 'addPageAction' ||
+      name === 'editPageAction' ||
+      name === 'deletePageListItemAction'
+    ) {
+      currentPage.value = 1
+    }
+  })
+})
+
 //获取收据请求
 function fetchUserList(queryParams: any = {}) {
+  if (!isQuery) return
+
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size  //偏移量
   const params = {
