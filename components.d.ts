@@ -7,6 +7,8 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    BarEchart: typeof import('./src/components/page-echarts/src/bar-echart.vue')['default']
+    BaseEchart: typeof import('./src/components/page-echarts/src/base-echart.vue')['default']
     Breadcrumb: typeof import('./src/components/main-header/components/Breadcrumb.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
@@ -14,6 +16,7 @@ declare module '@vue/runtime-core' {
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButtom: typeof import('element-plus/es')['ElButtom']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCard: typeof import('element-plus/es')['ElCard']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
@@ -47,11 +50,15 @@ declare module '@vue/runtime-core' {
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTree: typeof import('element-plus/es')['ElTree']
+    LineEchart: typeof import('./src/components/page-echarts/src/line-echart.vue')['default']
     MainAside: typeof import('./src/components/main-aside/Main-aside.vue')['default']
     MainHeader: typeof import('./src/components/main-header/Main-header.vue')['default']
+    MapEchart: typeof import('./src/components/page-echarts/src/map-echart.vue')['default']
     PageContent: typeof import('./src/components/page-content/PageContent.vue')['default']
     PageHeader: typeof import('./src/components/page-header/PageHeader.vue')['default']
     PageModel: typeof import('./src/components/page-model/PageModel.vue')['default']
+    PieEchart: typeof import('./src/components/page-echarts/src/pie-echart.vue')['default']
+    RoseEchart: typeof import('./src/components/page-echarts/src/rose-echart.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
