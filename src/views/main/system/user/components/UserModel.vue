@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, nextTick } from 'vue'
 import useMainStore from '@/store/main/main'
 import { storeToRefs } from 'pinia';
 import useSystemStore from '@/store/main/system/system'
@@ -55,12 +55,13 @@ import type { FormInstance, FormRules  } from 'element-plus';
 
 const formRef = ref<FormInstance>()
 const showDialog = ref(false)
-function changeShowDialog() {
-  showDialog.value = true
-}
- 
 const editOrAdd = ref('add')
 const userItemId = ref()
+
+function changeShowDialog() {
+  showDialog.value = true
+  editOrAdd.value = 'add'
+}
 
 const mainStore = useMainStore()
 const { entireRoles, entireDepartments } = storeToRefs(mainStore)
@@ -130,9 +131,11 @@ function editUserItem(user: any) {
   editOrAdd.value = 'edit'
   const { id } = user
   userItemId.value = id
-  for (const key in userForm) {
-    userForm[key] = user[key]  //优雅
-  }
+  nextTick(()=>{   // 放在nexttick()中
+    for (const key in userForm) {
+      userForm[key] = user[key]
+    }
+  })
 }
 
 defineExpose({ changeShowDialog, editUserItem })
